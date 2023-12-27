@@ -13,11 +13,15 @@ RUN apt-get update \
 
 COPY ./build /root/build/
 WORKDIR /root/build/
-# Build and install SDL
-RUN ./build-sdl.sh \
-   && cat ./setup-env.sh >> /root/.bashrc \
-   # Clean up
-   && rm -rfd /root/build
+
+# Build and install stuff
+RUN ./build-boost.sh
+RUN ./build-sdl.sh
+
+# Add env and clean up
+RUN cat ./setup-env.sh >> /root/.bashrc \
+  && rm -rfd /root/build
+
 WORKDIR /root/workspace/
 
 CMD ["/bin/bash"]
